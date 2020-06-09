@@ -1,5 +1,8 @@
 ######### DATI EARTHSTAT
 
+#immagini raster, ogni pixel è correlato ad un parametro geografico (ogni punto nel file è un punto sulla terra)
+#come datum, ellissoide, proiezione (WGS84)
+
 # uso dati del soy beans
 
 
@@ -10,9 +13,9 @@ library(rgdal)
 
 
 
+                        # aggiungo nomi-titoli(main=...) e didascalie ai grafici che produco
 
-
-
+               
 #### CARICO LE IMMAGINI                  zlim, è 0,5 giusto? si puo fare di meglio? IO FAREI 4
 
 
