@@ -5,6 +5,7 @@
 
 # uso dati del soy beans
 
+# SONO TONNELLATA PER ETTARO. PER CUI NON MI DA I PAESI CHE NE PRODUCONO DI PIU, MA MI DA I PAESI DOVE PER ETTARE NE VIENE PRODOTTO DI PIU
 
 library(sp)
 library(raster)
@@ -114,8 +115,8 @@ plot(coastline,lwd=0.3,add=T)
 
 
 
-##### FUNZIONE CROP
-
+##### FUNZIONE CROP      
+                           # potrei farla anche sul Nord America dove è aumentata la produzione
 
 
 ###  funzione CROP della zona del SUD AMERICA
@@ -158,7 +159,7 @@ plot(coastline,lwd=0.3,add=T)
 
 
 
-#### FUNZIONE DI CARICAMENTO TUTTI I DATI ASSIEME
+#### FUNZIONE DI CARICAMENTO TUTTI I DATI ASSIEME, don't need them
 
 
 ###### PROVO CON LE PATCHES
@@ -166,7 +167,15 @@ plot(coastline,lwd=0.3,add=T)
 
 #### BOXPLOT 
 
-boxplot(soy_1995) # cosi và, ma sarebbe da cambiare i valori 
+boxplot(soy_1995, horizontal=T,outline=F,axes=T)
+boxplot(soy_2005, horizontal=T,outline=F,axes=T)
+
+# con main aggiungo il titolo e le metto con una par una sotto all'altra
+
+par(mfrow=c(2,1))
+boxplot(soy_1995, horizontal=T,outline=F,axes=T,main="boxplot 1995")
+boxplot(soy_2005, horizontal=T,outline=F,axes=T,main="boxplot 2005")
+
 
 #### altre funzioni nel pacchetto raster??
 
