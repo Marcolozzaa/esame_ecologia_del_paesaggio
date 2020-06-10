@@ -180,16 +180,21 @@ boxplot(soy_2005, horizontal=T,outline=F,axes=T,main="boxplot 2005")
 #### altre funzioni nel pacchetto raster??
 
 
+#### PROVO UNA FIGATA    RANDOM DATA
 
+install.packages("dismo")
+library(dismo)
 
+# points presence, 1000 punti random 
 
+points.p <- randomPoints(soy_1995, 1000 )
 
+# plotto i punti sulla mappa (pch=20 puntini neri, cex= dimensione punti)
+plot(points,pch=20,cex=0.1)
 
-
-
-
-
-
+# plotto la mappa e sopra i punti
+plot(soy_1995_brick,zlim=c(0,4),col=cl)
+points(points,pch=20,cex=0.1)
 
 
 
