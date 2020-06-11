@@ -172,6 +172,7 @@ plot(soy_yiest.multitemp,col=cl,zlim=c(0,4))
 
 
 
+
 ###### PROVO CON LE PATCHES
 
 
@@ -196,7 +197,9 @@ boxplot(soy_2005, horizontal=T,outline=F,axes=T,main="boxplot 2005")
 
 
 
-#### GRAFICO COLONNE GGPLOT2
+
+#### GRAFICO COLONNE GGPLOT2 PLOTTANDO ETTARI E TONNELLATE PER ETTARO
+
 
 install.packages("gglpot2")
 library(ggplot2)
@@ -215,8 +218,45 @@ View(tons_per_hectare_1995)
 # creo le basi per il grafico del 1995
 ggplot1995 <- ggplot(tons_per_hectare_1995, aes(x=tons_per_hectare,y=hectare)) + geom_bar(stat="identity",fill="white")
 plot(ggplot1995)
-# cambio colore delle colonne in giallo 
-ggplot1995 <- ggplot(tons_per_hectare_1995, aes(x=tons_per_hectare,y=hectare)) + geom_bar(stat="identity",fill="darkgoldenrod1")
+
+# cambio colore delle colonne in giallo,aggiungo i limiti sulla y, e il titolo
+
+ggplot1995 <- ggplot(tons_per_hectare_1995, aes(x=tons_per_hectare,y=hectare)) + 
+geom_bar(stat="identity", fill="darkgoldenrod1") +
+ylim(0, 700000) +
+labs(title="TONS PER HECTARE 1995")
+
+
+# faccio la stessa cosa ma per il 2005
+
+freq(soy_2005)
+fr1995 <- freq(soy_2005) # guardo la tabella e vedo i valori come sono organizzati
+View(fr2005)
+
+tons_per_hectare2 <- c(0,1,2,3,4)
+hectare2 <- c(21734,569464,223823,107568,10598)
+tons_per_hectare_2005 <- data.frame(tons_per_hectare2,hectare2)
+View(tons_per_hectare_2005)
+
+ggplot2005 <- ggplot(tons_per_hectare_2005, aes(x=tons_per_hectare2,y=hectare2)) + 
+geom_bar(stat="identity",fill="darkgoldenrod1") +
+ylim(0, 700000) +
+labs(title="TONS PER HECTARE 2005")
+
+
+# Metto i due grafici appena ottenuti sulla stessa riga 
+
+install.packages("gridExtra")
+library("gridExtra")
+
+# grid.arrange(plot1,plot2,nrow=1) = due grafici nella stessa finestra 
+
+grid.arrange(ggplot1995,ggplot2005,nrow=1)
+
+
+## Qua vedo come in 10 anni sono aumentate le tonnellate per ettaro
+# gli ettari dove si produce solo 1 tonnellata sono diminuiti e dove se ne produono di piu di tonnellate sono aumentati
+
 
 
 
