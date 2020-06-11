@@ -147,7 +147,7 @@ plot(coastline,lwd=0.3,add=T)
 # posso fare la differenza dei due crop in SUD AMERICA
 
 diff_soy_SA <- soy_2005_SA - soy_1995_SA
-cl <- colorRampPalette(c('aliceblue','darkgoldenrod1','darkgoldenrod4'))(100)
+cl <- colorRampPalette(c('aliceblue','darkgoldenrod1','darkgoldenrod4'))(100)  # magari provo a cambiare palette per la diff?
 
 plot(diff_soy_SA,col=cl,zlim=c(0,4))
 plot(coastline,lwd=0.3,add=T)
@@ -161,8 +161,24 @@ plot(coastline,lwd=0.3,add=T)
 
 #### FUNZIONE DI CARICAMENTO TUTTI I DATI ASSIEME, don't need them
 
+setwd("~/Desktop/ESAME COPERNICUS/HarvAreaYield_4Crops_95-00-05_Geotiff/Soybean/SOIA YIELD TIF")
+rlist <- list.files(pattern=".tif", full.names=T)
+list_rast <- lapply(rlist, raster)
+soy_yiest.multitemp <- stack(list_rast)
+plot(soy_yiest.multitemp)
+
+cl <- colorRampPalette(c('aliceblue','darkgoldenrod1','darkgoldenrod4'))(100)
+plot(soy_yiest.multitemp,col=cl,zlim=c(0,4))
+
+
 
 ###### PROVO CON LE PATCHES
+
+
+
+
+
+
 
 
 #### BOXPLOT 
@@ -177,7 +193,35 @@ boxplot(soy_1995, horizontal=T,outline=F,axes=T,main="boxplot 1995")
 boxplot(soy_2005, horizontal=T,outline=F,axes=T,main="boxplot 2005")
 
 
-#### altre funzioni nel pacchetto raster??
+
+
+
+#### GRAFICO COLONNE GGPLOT2
+
+install.packages("gglpot2")
+library(ggplot2)
+
+freq(soy_1995)
+fr1995 <- freq(soy_1995) # guardo la tabella e vedo i valori come sono organizzati
+View(fr1995)
+
+# mi creo una tabella con i valori che riporto anche sul grafico da 0 a 4 (dove ho la maggior parte dei dati)
+
+tons_per_hectare <- c(0,1,2,3,4)
+hectare <- c(24891,608400,187465,66019,6231)
+# creo la tabella
+tons_per_hectare_1995 <- data.frame(tons_per_hectare,hectare)
+View(tons_per_hectare_1995)
+# creo le basi per il grafico del 1995
+ggplot1995 <- ggplot(tons_per_hectare_1995, aes(x=tons_per_hectare,y=hectare)) + geom_bar(stat="identity",fill="white")
+plot(ggplot1995)
+# cambio colore delle colonne in giallo 
+ggplot1995 <- ggplot(tons_per_hectare_1995, aes(x=tons_per_hectare,y=hectare)) + geom_bar(stat="identity",fill="darkgoldenrod1")
+
+
+
+
+
 
 
 #### PROVO UNA FIGATA    RANDOM DATA
