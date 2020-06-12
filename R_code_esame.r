@@ -99,7 +99,7 @@ plot(coastline,lwd=0.3,add=T)
 
 
 
-#### FUNZIONE DIFFERENZA
+#### FUNZIONE DIFFERENZA    # cambio la color ramp in cldiff
 
 
 diff <- soy_2005-soy_1995
