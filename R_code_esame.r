@@ -1,5 +1,8 @@
 ######### DATI EARTHSTAT
 
+# descrivere i dati, dire che Russia non hanno i dati completi
+# dire che è lo Yield in tonnellate per ettaro
+
 #immagini raster, ogni pixel è correlato ad un parametro geografico (ogni punto nel file è un punto sulla terra)
 #come datum, ellissoide, proiezione (WGS84)
 
@@ -151,6 +154,77 @@ cl <- colorRampPalette(c('aliceblue','darkgoldenrod1','darkgoldenrod4'))(100)  #
 
 plot(diff_soy_SA,col=cl,zlim=c(0,4))
 plot(coastline,lwd=0.3,add=T)
+
+
+#### GRAFICO COLONNE GGPLOT2 DEL SUD AMERICA
+
+freq.SA.1995 <- freq(soy_1995_SA)
+freq.SA.2005 <- freq(soy_2005_SA) # guardo le tabella e vedo i valori come sono organizzati
+ 
+View(freq.SA.1995)
+View(freq.SA.2005)
+
+
+# mi creo una tabella con i valori che riporto anche sul grafico da 0 a 4 (dove ho la maggior parte dei dati)
+# tabella dei valori per il raster Sud America 1995
+
+
+tons_per_hectare_SA1995 <- c(1,2,3,4)
+hectare_SA1995 <- c(7901,45675,6078,196)
+
+# creo la tabella
+tons_per_hectare_1995SA <- data.frame(tons_per_hectare_SA1995,hectare_SA1995)
+View(tons_per_hectare_1995SA)
+# creo le basi per il grafico del 1995 del Sud America
+ggplot1995SA <- ggplot(tons_per_hectare_1995SA, aes(x=tons_per_hectare_SA1995,y=hectare_SA1995)) + geom_bar(stat="identity",fill="white")
+plot(ggplot1995SA)
+
+# cambio colore delle colonne in giallo,aggiungo i limiti sulla y, e il titolo
+
+ggplot1995SA <- ggplot(tons_per_hectare_1995SA, aes(x=tons_per_hectare_SA1995,y=hectare_SA1995) + 
+geom_bar(stat="identity", fill="goldenrod") +
+ylim(0, 60000) +
+labs(title="TONS PER HECTARE 1995 IN SOUTH AMERICA")
+# stessa funzione sopra ma R si vede che la prende solo scritta cosi tutta dritta                                         
+ggplot1995SA <- ggplot(tons_per_hectare_1995SA, aes(x=tons_per_hectare_SA1995,y=hectare_SA1995)) + geom_bar(stat="identity",fill="goldenrod") + ylim(0, 60000) + labs(title="TONS PER HECTARE 1995 IN SOUTH AMERICA") 
+plot(ggplot1995SA)
+
+# faccio la stessa cosa ma per il 2005
+
+View(freq.SA.2005)
+
+tons_per_hectare_SA2005 <- c(1,2,3,4)
+hectare_SA2005 <- c(10518,47556,25038,312)
+
+# creo la tabella
+tons_per_hectare_2005SA <- data.frame(tons_per_hectare_SA2005,hectare_SA2005)
+View(tons_per_hectare_2005SA)
+# creo le basi per il grafico del 20055 del Sud America
+ggplot2005SA <- ggplot(tons_per_hectare_2005SA, aes(x=tons_per_hectare_SA2005,y=hectare_SA2005)) + geom_bar(stat="identity",fill="white")
+plot(ggplot2005SA)
+
+# cambio colore delle colonne in giallo,aggiungo i limiti sulla y, e il titolo
+
+ggplot2005SA <- ggplot(tons_per_hectare_2005SA, aes(x=tons_per_hectare(SA2005),y=hectare(SA2005)) + 
+geom_bar(stat="identity", fill="goldenrod") +
+ylim(0, 60000) +
+labs(title="TONS PER HECTARE 2005 IN SOUTH AMERICA")
+# stessa funzione ma R si vede che la prende solo scritta cosi tutta dritta    
+ggplot2005SA <- ggplot(tons_per_hectare_2005SA, aes(x=tons_per_hectare_SA2005,y=hectare_SA2005)) + geom_bar(stat="identity",fill="goldenrod") + ylim(0, 60000) + labs(title="TONS PER HECTARE 2005 IN SOUTH AMERICA")
+
+
+# Metto i due grafici appena ottenuti sulla stessa riga 
+
+install.packages("gridExtra")
+library("gridExtra")
+
+# grid.arrange(plot1,plot2,nrow=1) = due grafici nella stessa finestra 
+
+grid.arrange(ggplot1995SA,ggplot2005SA,nrow=1)
+
+
+
+
 
 
 
