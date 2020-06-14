@@ -9,13 +9,24 @@
 
 # SONO TONNELLATA PER ETTARO. PER CUI NON MI DA I PAESI CHE NE PRODUCONO DI PIU, MA MI DA I PAESI DOVE PER ETTARE NE VIENE PRODOTTO DI PIU
 
+
+install.packages("sp") 
 library(sp)
+
+install.packages("raster") 
 library(raster)
-install.packages("rgdal")
+
+install.packages("rgdal")          
 library(rgdal)
 
+install.packages("gglpot2")
+library(ggplot2)
 
+install.packages("gridExtra")
+library(gridExtra)
 
+install.packages("dismo")
+library(dismo)
                        
 
   
@@ -104,56 +115,59 @@ plot(coastline,lwd=0.3,add=T)
 
 
 
-#### GRAFICO COLONNE GGPLOT2 PLOTTANDO ETTARI E TONNELLATE PER ETTARO
+#### GRAFICO COLONNE GGPLOT2 PLOTTANDO N.DEI PIXELS E TONNELLATE PER ETTARO
 
 
 install.packages("gglpot2")
 library(ggplot2)
 
+# con la funzione "freq" creo un frequency table dove mi fa il conto di tutti i pixel con uguali valori
 freq(soy_1995)
+# salvo la tabella come insieme di dati
 fr1995 <- freq(soy_1995) # guardo la tabella e vedo i valori come sono organizzati
 View(fr1995)
 
 # mi creo una tabella con i valori che riporto anche sul grafico da 0 a 4 (dove ho la maggior parte dei dati)
 
 tons_per_hectare <- c(0,1,2,3,4)
-hectare <- c(24891,608400,187465,66019,6231)
+n.pixels <- c(24891,608400,187465,66019,6231)
 # creo la tabella
-tons_per_hectare_1995 <- data.frame(tons_per_hectare,hectare)
+tons_per_hectare_1995 <- data.frame(tons_per_hectare,n.pixels)
 View(tons_per_hectare_1995)
 # creo le basi per il grafico del 1995
-ggplot1995 <- ggplot(tons_per_hectare_1995, aes(x=tons_per_hectare,y=hectare)) + geom_bar(stat="identity",fill="white")
+ggplot1995 <- ggplot(tons_per_hectare_1995, aes(x=tons_per_hectare,y=n.pixels)) + geom_bar(stat="identity",fill="white")
 plot(ggplot1995)
 
 # cambio colore delle colonne in giallo,aggiungo i limiti sulla y, e il titolo e cambio anche i nomi della x e della y
 
-ggplot1995 <- ggplot(tons_per_hectare_1995, aes(x=tons_per_hectare,y=hectare)) + 
+ggplot1995 <- ggplot(tons_per_hectare_1995, aes(x=tons_per_hectare,y=n.pixels)) + 
 geom_bar(stat="identity", fill="darkgoldenrod1") +
 ylim(0, 700000) +
-labs(title="TONS PER HECTARE 1995",x = "TONS/HECTARE",y="HECTARE")
+labs(title="TONS PER HECTARE 1995",x = "TONS/HECTARE",y="N. OF PIXELS (SINGOL CELL AREA 10 km2)")
 
 
 # faccio la stessa cosa ma per il 2005
 
+# con la funzione "freq" creo un frequency table dove mi fa il conto di tutti i pixel con uguali valori
 freq(soy_2005)
 fr1995 <- freq(soy_2005) # guardo la tabella e vedo i valori come sono organizzati
 View(fr2005)
 
 tons_per_hectare2 <- c(0,1,2,3,4)
-hectare2 <- c(21734,569464,223823,107568,10598)
-tons_per_hectare_2005 <- data.frame(tons_per_hectare2,hectare2)
+n.pixels2 <- c(21734,569464,223823,107568,10598)
+tons_per_hectare_2005 <- data.frame(tons_per_hectare2,n.pixels2)
 View(tons_per_hectare_2005)
 
-ggplot2005 <- ggplot(tons_per_hectare_2005, aes(x=tons_per_hectare2,y=hectare2)) + 
+ggplot2005 <- ggplot(tons_per_hectare_2005, aes(x=tons_per_hectare2,y=n.pixels2)) + 
 geom_bar(stat="identity",fill="darkgoldenrod1") +
 ylim(0, 700000) +
-labs(title="TONS PER HECTARE 2005",x = "TONS/HECTARE",y="HECTARE")
+labs(title="TONS PER HECTARE 2005",x = "TONS/HECTARE",y="N. OF PIXELS (SINGOL CELL AREA 10 km2)")
 
 
 # Metto i due grafici appena ottenuti sulla stessa riga 
 
 install.packages("gridExtra")
-library("gridExtra")
+library(gridExtra)
 
 # grid.arrange(plot1,plot2,nrow=1) = due grafici nella stessa finestra 
 
@@ -197,7 +211,7 @@ boxplot(soy_2005, horizontal=T,outline=F,axes=T,main="boxplot 2005")
 
 
 
-#### FUNZIONE DIFFERENZA    # cambio la color ramp in cldiff
+#### FUNZIONE DIFFERENZA    # cambio la color ramp in cldiff # posso calcorare la frequenza dei valori della nuova mappa
 
 
 diff <- soy_2005-soy_1995
@@ -273,6 +287,7 @@ plot(coastline,lwd=0.3,add=T)
 
 #### GRAFICO COLONNE GGPLOT2 DEL SUD AMERICA(1995-2005)
 
+# con la funzione "freq" creo un frequency table dove mi fa il conto di tutti i pixel con uguali valori
 freq.SA.1995 <- freq(soy_1995_SA)
 freq.SA.2005 <- freq(soy_2005_SA) # guardo le tabella e vedo i valori come sono organizzati
  
@@ -285,24 +300,24 @@ View(freq.SA.2005)
 
 
 tons_per_hectare_SA1995 <- c(1,2,3,4)
-hectare_SA1995 <- c(7901,45675,6078,196)
+n.pixels_SA1995 <- c(7901,45675,6078,196)
 
 # creo la tabella
-tons_per_hectare_1995SA <- data.frame(tons_per_hectare_SA1995,hectare_SA1995)
+tons_per_hectare_1995SA <- data.frame(tons_per_hectare_SA1995,n.pixels_SA1995)
 View(tons_per_hectare_1995SA)
 # creo le basi per il grafico del 1995 del Sud America
-ggplot1995SA <- ggplot(tons_per_hectare_1995SA, aes(x=tons_per_hectare_SA1995,y=hectare_SA1995)) + geom_bar(stat="identity",fill="white")
+ggplot1995SA <- ggplot(tons_per_hectare_1995SA, aes(x=tons_per_hectare_SA1995,y=n.pixels_SA1995)) + geom_bar(stat="identity",fill="white")
 plot(ggplot1995SA)
 
 # cambio colore delle colonne in giallo,aggiungo i limiti sulla y, e il titolo
 
-ggplot1995SA <- ggplot(tons_per_hectare_1995SA, aes(x=tons_per_hectare_SA1995,y=hectare_SA1995) + 
+ggplot1995SA <- ggplot(tons_per_hectare_1995SA, aes(x=tons_per_hectare_SA1995,y=n.pixels_SA1995) + 
 geom_bar(stat="identity", fill="goldenrod") +
 ylim(0, 60000) +
-labs(title="TONS/HECTARE 1995 SOUTH AMERICA",x = "TONS/HECTARE",y="HECTARE")
+labs(title="TONS/HECTARE 1995 SOUTH AMERICA",x = "TONS/HECTARE",y="N. OF PIXELS (SINGOL CELL AREA 10 km2)")
                        
 # stessa funzione sopra ma R si vede che la prende solo scritta cosi tutta dritta                                         
-ggplot1995SA <- ggplot(tons_per_hectare_1995SA, aes(x=tons_per_hectare_SA1995,y=hectare_SA1995)) + geom_bar(stat="identity",fill="goldenrod") + ylim(0, 60000) + labs(title="TONS/HECTARE 1995 SOUTH AMERICA",x = "TONS/HECTARE",y="HECTARE")
+ggplot1995SA <- ggplot(tons_per_hectare_1995SA, aes(x=tons_per_hectare_SA1995,y=n.pixels_SA1995)) + geom_bar(stat="identity",fill="goldenrod") + ylim(0, 60000) + labs(title="TONS/HECTARE 1995 SOUTH AMERICA",x = "TONS/HECTARE",y="N. OF PIXELS (SINGOL CELL AREA 10 km2)")
 plot(ggplot1995SA)
 
 # faccio la stessa cosa ma per il 2005
@@ -310,24 +325,24 @@ plot(ggplot1995SA)
 View(freq.SA.2005)
 
 tons_per_hectare_SA2005 <- c(1,2,3,4)
-hectare_SA2005 <- c(10518,47556,25038,312)
+n.pixels_SA2005 <- c(10518,47556,25038,312)
 
 # creo la tabella
-tons_per_hectare_2005SA <- data.frame(tons_per_hectare_SA2005,hectare_SA2005)
+tons_per_hectare_2005SA <- data.frame(tons_per_hectare_SA2005,n.pixels_SA2005)
 View(tons_per_hectare_2005SA)
 # creo le basi per il grafico del 20055 del Sud America
-ggplot2005SA <- ggplot(tons_per_hectare_2005SA, aes(x=tons_per_hectare_SA2005,y=hectare_SA2005)) + geom_bar(stat="identity",fill="white")
+ggplot2005SA <- ggplot(tons_per_hectare_2005SA, aes(x=tons_per_hectare_SA2005,y=n.pixels_SA2005)) + geom_bar(stat="identity",fill="white")
 plot(ggplot2005SA)
 
 # cambio colore delle colonne in giallo,aggiungo i limiti sulla y, e il titolo e cambio il nome delle x e delle y
 
-ggplot2005SA <- ggplot(tons_per_hectare_2005SA, aes(x=tons_per_hectare(SA2005),y=hectare(SA2005)) + 
+ggplot2005SA <- ggplot(tons_per_hectare_2005SA, aes(x=tons_per_hectare_SA2005,y=n.pixels_SA2005) + 
 geom_bar(stat="identity", fill="goldenrod") +
 ylim(0, 60000) +
-labs(title="TONS/HECTARE 2005 SOUTH AMERICA",x = "TONS/HECTARE",y="HECTARE")
+labs(title="TONS/HECTARE 2005 SOUTH AMERICA",x = "TONS/HECTARE",y="N. OF PIXELS (SINGOL CELL AREA 10 km2)")
                        
 # stessa funzione ma R si vede che la prende solo scritta cosi tutta dritta    
-ggplot2005SA <- ggplot(tons_per_hectare_2005SA, aes(x=tons_per_hectare_SA2005,y=hectare_SA2005)) + geom_bar(stat="identity",fill="goldenrod") + ylim(0, 60000) + labs(title="TONS/HECTARE 2005 SOUTH AMERICA",x = "TONS/HECTARE",y="HECTARE")
+ggplot2005SA <- ggplot(tons_per_hectare_2005SA, aes(x=tons_per_hectare_SA2005,y=n.pixels_SA2005)) + geom_bar(stat="identity",fill="goldenrod") + ylim(0, 60000) + labs(title="TONS/HECTARE 2005 SOUTH AMERICA",x = "TONS/HECTARE",y="N. OF PIXELS (SINGOL CELL AREA 10 km2)")
 
 
 # Metto i due grafici appena ottenuti sulla stessa riga 
