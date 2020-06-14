@@ -255,11 +255,17 @@ soy_1995_SA <- crop(soy_1995, extension)
 soy_2000_SA <- crop(soy_2000, extension)
 soy_2005_SA <- crop(soy_2005, extension)
 
-plot(soy_1995_SA,col=cl,zlim=c(0,4))
-plot(coastline,lwd=0.3,add=T)   
+# le plotto tutte insieme e aggiungo la color ramp, il limite zlim e il titolo
+par(mfrow=c(2,2))  
+plot(soy_1995_SA,col=cl,zlim=c(0,4),main="SOUTH AMERICA SOY BEANS YIELD 1995")
+plot(coastline,lwd=0.3,add=T) 
+plot(soy_2000_SA,col=cl,zlim=c(0,4),main="SOUTH AMERICA SOY BEANS YIELD 2000")
+plot(coastline,lwd=0.3,add=T) 
+plot(soy_2005_SA,col=cl,zlim=c(0,4),main="SOUTH AMERICA SOY BEANS YIELD 2005")
+plot(coastline,lwd=0.3,add=T)
 
-
-par(mfrow=c(1,2))                       # le metto una di finaco all'altra e aggiungo il titolo al grafico
+# metto le mappe del 1995 e del 2005 una di finaco all'altra e aggiungo il titolo al grafico
+par(mfrow=c(1,2))                       
 plot(soy_1995_SA,col=cl,zlim=c(0,4),main="SOUTH AMERICA SOY BEANS YIELD 1995")
 plot(coastline,lwd=0.3,add=T)
 
