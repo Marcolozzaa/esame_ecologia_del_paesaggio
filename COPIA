@@ -1,16 +1,12 @@
-######### DATI EARTHSTAT
+######### ESAME DI ECOLOGIA DEL PAESAGGIO, 2020/21                           MARCO LOZZA
 
-# descrivere i dati, dire che Russia non hanno i dati completi, che ho usato SOYBEANS
-# dire che è lo Yield in tonnellate per ettaro
-
-#immagini raster, ogni pixel è correlato ad un parametro geografico (ogni punto nel file è un punto sulla terra)
-#come datum, ellissoide, proiezione (WGS84)
+# dati presi dal sito di EARTHSTAT
+# dati rappresentanti la resa media in tonnellate per ettaro durante il periodo che va dal 1997 al 2003 
 
 
-# SONO TONNELLATA PER ETTARO. PER CUI NON MI DA I PAESI CHE NE PRODUCONO DI PIU, MA MI DA I PAESI DOVE PER ETTARE NE VIENE PRODOTTO DI PIU
+# pacchetti necessari per procedere
 
 
-install.packages("sp") 
 library(sp)
 
 install.packages("raster") 
@@ -30,9 +26,44 @@ library(dismo)
                        
 
   
+#### FUNZIONE DI CARICAMENTO IMMAGINI RASTER CON LAPPLY E STACK
 
-#### CARICO LE IMMAGINI                  
 
+setwd("~/Desktop/ESAME COPERNICUS/HarvAreaYield_4Crops_95-00-05_Geotiff/Soybean/SOIA YIELD TIF")
+rlist <- list.files(pattern=".tif", full.names=T)
+list_rast <- lapply(rlist, raster)
+soy_yiest.multitemp <- stack(list_rast)
+plot(soy_yiest.multitemp)
+
+# imposto una color ramp palette e do il limite di valori da 0 a 4
+
+cl <- colorRampPalette(c('aliceblue','darkgoldenrod1','darkgoldenrod4'))(100)
+plot(soy_yiest.multitemp,col=cl,zlim=c(0,4))`
+
+# il problema è che le mappe non hanno le coastlines 
+# aggiungo le coastlines alle mappe
+
+
+
+
+#### FUNZIONE PER UNIRE LE COASTLINES
+
+
+
+# imposto la work direct. sulla cratella con lo shape file
+
+setwd("~/Desktop/ESAME COPERNICUS/HarvAreaYield_4Crops_95-00-05_Geotiff/ne_10m_coastline")
+
+coastline <- readOGR("ne_10m_coastline.shp")
+
+# ri imposto la work direct. sulla cartella SOYBEANS
+
+setwd("~/Desktop/ESAME COPERNICUS/HarvAreaYield_4Crops_95-00-05_Geotiff/Soybean")
+
+
+#### CARICO LE IMMAGINI SINGOLARMENTE CON LA FUNZIONE RASTER                 
+
+# questo perchè lo shape file non si attacca ad uno stack file ma solo alle immagini raster singole
 
 setwd("~/Desktop/ESAME COPERNICUS/HarvAreaYield_4Crops_95-00-05_Geotiff/Soybean")
 soy_1995 <- raster("Soybean_1995_Yield.tif")
@@ -53,27 +84,6 @@ plot(soy_2000,col=cl,zlim=c(0,4),main="GLOBAL SOY BEANS YIELD 2000")
 plot(soy_2005,col=cl,zlim=c(0,4),main="GLOBAL SOY BEANS YIELD 2005")  # le mappe pero non hanno le coastlines, le aggiungo
 
 dev.off()
-
-
-
-
-
-
-
-
-#### FUNZIONE PER UNIRE LE COASTLINES
-
-
-
-# metto la work direct. sulla cratella con lo shape file
-
-setwd("~/Desktop/ESAME COPERNICUS/HarvAreaYield_4Crops_95-00-05_Geotiff/ne_10m_coastline")
-
-coastline <- readOGR("ne_10m_coastline.shp")
-
-# ri imposto la work direct. sulla cartella SOYBEANS
-
-setwd("~/Desktop/ESAME COPERNICUS/HarvAreaYield_4Crops_95-00-05_Geotiff/Soybean")
 
 cl <- colorRampPalette(c('aliceblue','darkgoldenrod1','darkgoldenrod4'))(100)
 plot(soy_1995,col=cl,zlim=c(0,4),main="GLOBAL SOY BEANS YIELD 1995")
@@ -115,6 +125,12 @@ plot(coastline,lwd=0.3,add=T)
 
 
 
+
+
+
+
+
+
 #### GRAFICO COLONNE GGPLOT2 PLOTTANDO N.DEI PIXELS E TONNELLATE PER ETTARO
 
 
@@ -129,8 +145,8 @@ View(fr1995)
 
 # mi creo una tabella con i valori che riporto anche sul grafico da 0 a 4 (dove ho la maggior parte dei dati)
 
-tons_per_hectare <- c(0,1,2,3,4)
-n.pixels <- c(24891,608400,187465,66019,6231)
+tons_per_hectare <- c(1,2,3,4)
+n.pixels <- c(608400,187465,66019,6231)
 # creo la tabella
 tons_per_hectare_1995 <- data.frame(tons_per_hectare,n.pixels)
 View(tons_per_hectare_1995)
@@ -153,8 +169,8 @@ freq(soy_2005)
 fr1995 <- freq(soy_2005) # guardo la tabella e vedo i valori come sono organizzati
 View(fr2005)
 
-tons_per_hectare2 <- c(0,1,2,3,4)
-n.pixels2 <- c(21734,569464,223823,107568,10598)
+tons_per_hectare2 <- c(1,2,3,4)
+n.pixels2 <- c(569464,223823,107568,10598)
 tons_per_hectare_2005 <- data.frame(tons_per_hectare2,n.pixels2)
 View(tons_per_hectare_2005)
 
@@ -186,8 +202,6 @@ grid.arrange(ggplot1995,ggplot2005,nrow=1)
 
 
 
-
-
 #### BOXPLOT 
 
 boxplot(soy_1995, horizontal=T,outline=F,axes=T)
@@ -196,8 +210,8 @@ boxplot(soy_2005, horizontal=T,outline=F,axes=T)
 # con main aggiungo il titolo e le metto con una par una sotto all'altra
 
 par(mfrow=c(2,1))
-boxplot(soy_1995, horizontal=T,outline=F,axes=T,main="boxplot 1995")
-boxplot(soy_2005, horizontal=T,outline=F,axes=T,main="boxplot 2005")
+boxplot(soy_1995, horizontal=T,outline=F,axes=T,main="SOY BEAN YIELD 1995")
+boxplot(soy_2005, horizontal=T,outline=F,axes=T,main="SOY BEAN YIELD 2005")
 
 
 
@@ -208,13 +222,13 @@ boxplot(soy_2005, horizontal=T,outline=F,axes=T,main="boxplot 2005")
 
 
 
-
-
-
-#### FUNZIONE DIFFERENZA    # cambio la color ramp in cldiff # posso calcorare la frequenza dei valori della nuova mappa
+#### FUNZIONE DIFFERENZA   
 
 
 diff <- soy_2005-soy_1995
+
+# aggiungo al plot dell'immagine la color palette, il titolo e il limite dei valori con zlim
+# aggiungo anche le coastlines
 
 cl <- colorRampPalette(c('aliceblue','darkgoldenrod1','darkgoldenrod4'))(100)
 plot(diff,col=cl,zlim=c(0,4),main="GLOBAL SOY BEANS YIELD DIFFERENCE FROM 1995 TO 2005")
@@ -242,7 +256,7 @@ soy_2000_SA <- crop(soy_2000, extension)
 soy_2005_SA <- crop(soy_2005, extension)
 
 plot(soy_1995_SA,col=cl,zlim=c(0,4))
-plot(coastline,lwd=0.3,add=T)   # vedo se funziona
+plot(coastline,lwd=0.3,add=T)   
 
 
 par(mfrow=c(1,2))                       # le metto una di finaco all'altra e aggiungo il titolo al grafico
@@ -261,19 +275,17 @@ plot(coastline,lwd=0.3,add=T)
 
 
 
-
 ###### DIFFERENZA CON I CROP DEL SUD AMERICA
 
 
 # posso fare la differenza dei due crop in SUD AMERICA
 
 diff_soy_SA <- soy_2005_SA - soy_1995_SA
-cl <- colorRampPalette(c('aliceblue','darkgoldenrod1','darkgoldenrod4'))(100)  # magari provo a cambiare palette per la diff?
+cl <- colorRampPalette(c('aliceblue','darkgoldenrod1','darkgoldenrod4'))(100)  
 
 # aggiungo sempre lo stesso zlim e il titolo del grafico
 plot(diff_soy_SA,col=cl,zlim=c(0,4),main="SOUTH AMERICA SOY BEANS YIELD DIFFERENCE FROM 1995 TO 2005")
 plot(coastline,lwd=0.3,add=T)
-
 
 
 
@@ -365,26 +377,7 @@ grid.arrange(ggplot1995SA,ggplot2005SA,nrow=1)
 
 
                        
-                       
-                       
-                       
-                       
-                       
-#### FUNZIONE DI CARICAMENTO TUTTI I DATI ASSIEME, don't need them
-
-setwd("~/Desktop/ESAME COPERNICUS/HarvAreaYield_4Crops_95-00-05_Geotiff/Soybean/SOIA YIELD TIF")
-rlist <- list.files(pattern=".tif", full.names=T)
-list_rast <- lapply(rlist, raster)
-soy_yiest.multitemp <- stack(list_rast)
-plot(soy_yiest.multitemp)
-
-cl <- colorRampPalette(c('aliceblue','darkgoldenrod1','darkgoldenrod4'))(100)
-plot(soy_yiest.multitemp,col=cl,zlim=c(0,4))
-
-
-
-
-#### PROVO RANDOM DATA
+#### PROVO FUNZIONE PER CREARE UN DATASET DI RANDOM DATA
 
 install.packages("dismo")
 library(dismo)
@@ -399,5 +392,3 @@ plot(points,pch=20,cex=0.1)
 # plotto la mappa e sopra i punti
 plot(soy_1995_brick,zlim=c(0,4),col=cl)
 points(points,pch=20,cex=0.1)
-
-
