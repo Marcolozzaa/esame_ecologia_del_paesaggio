@@ -7,21 +7,23 @@
 
 # 1. FUNZIONE DI CARICAMENTO IMMAGINI RASTER CON LAPPLY E STACK 
 
-# 2. FUNZIONE PER UNIRE LE COASTLINES
+# 2. FUNZIONE PER CARICARE LE COASTLINES
 
 # 3. FUNZIONE RASTER : CARICO LE IMMAGINI SINGOLARMENTE
 
-# 4. FUNZIONE GGPLOT2 : GRAFICO COLONNE (PIXELS E TONNELLATE PER ETTARO)  
+# 4. FUNZIONE PER UNIRE LE COASTLINES ALLE IMMAGINI
 
-# 5. FUNZIONE BOXPLOT   
+# 5. FUNZIONE GGPLOT2 : GRAFICO COLONNE (PIXELS E TONNELLATE PER ETTARO)  
 
-# 6. FUNZIONE DIFFERENZA      
+# 6. FUNZIONE BOXPLOT   
 
-# 7. FUNZIONE CROP     
+# 7. FUNZIONE DIFFERENZA      
 
-# 8. FUNZIONE DIFFERENZA CON I CROP DEL SUD AMERICA   
+# 8. FUNZIONE CROP     
 
-# 9. FUNZIONE GGPLOT GRAFICO COLONNEDEL SUD AMERICA(1995-2005)  
+# 9. FUNZIONE DIFFERENZA CON I CROP DEL SUD AMERICA   
+
+# 10. FUNZIONE GGPLOT GRAFICO COLONNEDEL SUD AMERICA(1995-2005)  
 
 
 
@@ -73,7 +75,7 @@ plot(soy_yiest.multitemp,col=cl,zlim=c(0,4))`
 
 
 
-#### 2. FUNZIONE PER UNIRE LE COASTLINES
+#### 2. FUNZIONE PER CARICARE LE COASTLINES
 
 
 # imposto la work direct. sulla cratella con lo shape file
@@ -118,6 +120,11 @@ plot(soy_2005,col=cl,zlim=c(0,4),main="GLOBAL SOY BEANS YIELD 2005")  # le mappe
 
 dev.off()
 
+
+
+#### 4. FUNZIONE PER UNIRE LE COASTLINES
+
+
 cl <- colorRampPalette(c('aliceblue','darkgoldenrod1','darkgoldenrod4'))(100)
 plot(soy_1995,col=cl,zlim=c(0,4),main="GLOBAL SOY BEANS YIELD 1995")
 
@@ -159,7 +166,7 @@ plot(coastline,lwd=0.3,add=T)
 
 
 
-#### 4. FUNZIONE GGPLOT2 : GRAFICO COLONNE (PIXELS E TONNELLATE PER ETTARO)  
+#### 5. FUNZIONE GGPLOT2 : GRAFICO COLONNE (PIXELS E TONNELLATE PER ETTARO)  
 
 
 install.packages("gglpot2")
@@ -230,7 +237,7 @@ grid.arrange(ggplot1995,ggplot2005,nrow=1)
 
 
 
-#### 5. FUNZIONE BOXPLOT 
+#### 6. FUNZIONE BOXPLOT 
 
 boxplot(soy_1995, horizontal=T,outline=F,axes=T)
 boxplot(soy_2005, horizontal=T,outline=F,axes=T)
@@ -250,7 +257,7 @@ boxplot(soy_2005, horizontal=T,outline=F,axes=T,main="SOY BEAN YIELD 2005")
 
 
 
-#### 6. FUNZIONE DIFFERENZA   
+#### 7. FUNZIONE DIFFERENZA   
 
 
 diff <- soy_2005-soy_1995
@@ -271,7 +278,7 @@ plot(coastline,lwd=0.3,add=T)
 
 
 
-##### 7. FUNZIONE CROP      
+##### 8. FUNZIONE CROP      
                            
 
 ###  funzione CROP della zona del SUD AMERICA
@@ -309,7 +316,7 @@ plot(coastline,lwd=0.3,add=T)
 
 
 
-###### 8. FUNZIONE DIFFERENZA CON I CROP DEL SUD AMERICA
+###### 9. FUNZIONE DIFFERENZA CON I CROP DEL SUD AMERICA
 
 
 # posso fare la differenza dei due crop in SUD AMERICA
@@ -331,7 +338,7 @@ plot(coastline,lwd=0.3,add=T)
 
 
 
-#### 9. FUNZIONE GGPLOT GRAFICO COLONNEDEL SUD AMERICA(1995-2005)
+#### 10. FUNZIONE GGPLOT GRAFICO COLONNEDEL SUD AMERICA(1995-2005)
 
 # con la funzione "freq" creo un frequency table dove mi fa il conto di tutti i pixel con uguali valori
 freq.SA.1995 <- freq(soy_1995_SA)
