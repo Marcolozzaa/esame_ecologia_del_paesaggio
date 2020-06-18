@@ -4,6 +4,29 @@
 # dati rappresentanti la resa media in tonnellate per ettaro durante il periodo che va dal 1997 al 2003 
 
 
+
+# 1. FUNZIONE DI CARICAMENTO IMMAGINI RASTER CON LAPPLY E STACK 
+
+# 2. FUNZIONE PER UNIRE LE COASTLINES
+
+# 3. FUNZIONE RASTER : CARICO LE IMMAGINI SINGOLARMENTE
+
+# 4. FUNZIONE GGPLOT2 : GRAFICO COLONNE (PIXELS E TONNELLATE PER ETTARO)  
+
+# 5. FUNZIONE BOXPLOT   
+
+# 6. FUNZIONE DIFFERENZA      
+
+# 7. FUNZIONE CROP     
+
+# 8. FUNZIONE DIFFERENZA CON I CROP DEL SUD AMERICA   
+
+# 9. FUNZIONE GGPLOT GRAFICO COLONNEDEL SUD AMERICA(1995-2005)  
+
+
+
+
+
 # pacchetti necessari per procedere
 
 
@@ -26,7 +49,9 @@ library(dismo)
                        
 
   
-#### FUNZIONE DI CARICAMENTO IMMAGINI RASTER CON LAPPLY E STACK
+
+
+#### 1. FUNZIONE DI CARICAMENTO IMMAGINI RASTER CON LAPPLY E STACK
 
 
 setwd("~/Desktop/ESAME COPERNICUS/HarvAreaYield_4Crops_95-00-05_Geotiff/Soybean/SOIA YIELD TIF")
@@ -46,8 +71,9 @@ plot(soy_yiest.multitemp,col=cl,zlim=c(0,4))`
 
 
 
-#### FUNZIONE PER UNIRE LE COASTLINES
 
+
+#### 2. FUNZIONE PER UNIRE LE COASTLINES
 
 
 # imposto la work direct. sulla cratella con lo shape file
@@ -61,7 +87,14 @@ coastline <- readOGR("ne_10m_coastline.shp")
 setwd("~/Desktop/ESAME COPERNICUS/HarvAreaYield_4Crops_95-00-05_Geotiff/Soybean")
 
 
-#### CARICO LE IMMAGINI SINGOLARMENTE CON LA FUNZIONE RASTER                 
+
+
+
+
+
+#### 3. FUNZIONE RASTER : CARICO LE IMMAGINI SINGOLARMENTE                
+
+
 
 # questo perchè lo shape file non si attacca ad uno stack file ma solo alle immagini raster singole
 
@@ -126,12 +159,7 @@ plot(coastline,lwd=0.3,add=T)
 
 
 
-
-
-
-
-
-#### GRAFICO COLONNE GGPLOT2 PLOTTANDO N.DEI PIXELS E TONNELLATE PER ETTARO
+#### 4. FUNZIONE GGPLOT2 : GRAFICO COLONNE (PIXELS E TONNELLATE PER ETTARO)  
 
 
 install.packages("gglpot2")
@@ -202,7 +230,7 @@ grid.arrange(ggplot1995,ggplot2005,nrow=1)
 
 
 
-#### BOXPLOT 
+#### 5. FUNZIONE BOXPLOT 
 
 boxplot(soy_1995, horizontal=T,outline=F,axes=T)
 boxplot(soy_2005, horizontal=T,outline=F,axes=T)
@@ -222,7 +250,7 @@ boxplot(soy_2005, horizontal=T,outline=F,axes=T,main="SOY BEAN YIELD 2005")
 
 
 
-#### FUNZIONE DIFFERENZA   
+#### 6. FUNZIONE DIFFERENZA   
 
 
 diff <- soy_2005-soy_1995
@@ -243,7 +271,7 @@ plot(coastline,lwd=0.3,add=T)
 
 
 
-##### FUNZIONE CROP      
+##### 7. FUNZIONE CROP      
                            
 
 ###  funzione CROP della zona del SUD AMERICA
@@ -281,7 +309,7 @@ plot(coastline,lwd=0.3,add=T)
 
 
 
-###### DIFFERENZA CON I CROP DEL SUD AMERICA
+###### 8. FUNZIONE DIFFERENZA CON I CROP DEL SUD AMERICA
 
 
 # posso fare la differenza dei due crop in SUD AMERICA
@@ -303,7 +331,7 @@ plot(coastline,lwd=0.3,add=T)
 
 
 
-#### GRAFICO COLONNE GGPLOT2 DEL SUD AMERICA(1995-2005)
+#### 9. FUNZIONE GGPLOT GRAFICO COLONNEDEL SUD AMERICA(1995-2005)
 
 # con la funzione "freq" creo un frequency table dove mi fa il conto di tutti i pixel con uguali valori
 freq.SA.1995 <- freq(soy_1995_SA)
