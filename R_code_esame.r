@@ -1,7 +1,7 @@
 ######### ESAME DI ECOLOGIA DEL PAESAGGIO, 2020/21                           MARCO LOZZA
 
 # dati presi dal sito di EARTHSTAT
-# dati rappresentanti la resa media in tonnellate per ettaro durante il periodo che va dal 1997 al 2003 
+# dati rappresentanti la resa media in tonnellate per ettaro durante il periodo che va dal 1995 al 2005 
 
 
 
